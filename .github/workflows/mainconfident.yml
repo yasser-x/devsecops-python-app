@@ -1,4 +1,4 @@
-name: SAST_confident
+name: CI
 
 on: [push]
 
