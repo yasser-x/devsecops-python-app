@@ -1,25 +1,17 @@
-name: CI
+name: sast 
 
-on: [push]
+on:
+  push:
 
 jobs:
-  sast_scan:
-    name: Run Bandit Scan
+  checkout-repo:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-
-      - name: Set up python
-        uses: actions/setup-python@v2
-        with:
-          python-version: 3.8
-
-      - name: Install Bandit
-        run: pip install bandit
-
-      - name: Run Bandit Scan
-        run: bandit -ll -ii -r . -f json -o bandit-report.json
+    - name: Checkout 🛎️
+      uses: actions/checkout@v2
+    - name : Installing the bandit tool
+      run : |
+        pip install bandit
+        bandit -r app 
 
    
