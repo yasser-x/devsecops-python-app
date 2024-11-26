@@ -1,1 +1,33 @@
+name: CI
 
+on: [push]
+
+jobs:
+  sast_scan:
+    name: Run Bandit Scan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: 3.8
+
+      - name: Install Bandit
+        run: pip install bandit
+
+      - name: Run Bandit Scan with Medium and High Confidence Only
+        run: bandit -r . --confidence-level medium --severity-level medium -f txt -o bandit-report.txt
+        continue-on-error: true
+
+      - name: Display Bandit Report
+        run: cat bandit-report.txt
+
+      - name: Upload Bandit Report as Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: bandit-report
+          path: bandit-report.txt
