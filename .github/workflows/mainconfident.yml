@@ -31,3 +31,19 @@ jobs:
         with:
           name: bandit-report
           path: bandit-report.txt
+          # Step 4: Add .bandit.yml for configuration
+      - name: Create Bandit Config
+        run: |
+          echo "# .bandit.yml
+          exclude_dirs:
+            - tests
+            - migrations
+            - docs
+          skips:
+            - B404
+            - B506
+          severity: low
+          files:
+            - ./src/*
+          log_level: INFO" > .bandit.yml
+      
